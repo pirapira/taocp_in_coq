@@ -5,15 +5,13 @@ Section MIX.
   Definition word : Set := bool * byte * byte * byte * byte * byte.
   Definition Ireg_content : Set := bool * byte * byte.
 
+  Inductive Ireg_id : Set :=
+  | I1 | I2 | I3 | I4 | I5.
+
   Record register : Set := mkRegister {
     rA : word;
     rX : word;
-    rI1 : Ireg_content;
-    rI2 : Ireg_content;
-    rI3 : Ireg_content;
-    rI4 : Ireg_content;
-    rI5 : Ireg_content;
-    rI6 : Ireg_content;
+    rI : Ireg_id -> Ireg_content;
     rJ : byte * byte
   }.
 
@@ -36,7 +34,59 @@ Section MIX.
     M: nat;
     valid_memory_location : 0 <= M /\ M < 4000}.
 
-  Definition instruction : Set := address * index_spec * modification * op_code.
+  Inductive instruction : Set :=
+  | LDA: instruction
+  | LDX: instruction
+  | LDi: Ireg_id -> instruction
+  | LDAN
+  | LDXN
+  | LDiN: Ireg_id -> instruction
+  | STA
+  | STX
+  | STi: Ireg_id -> instruction
+  | STJ
+  | STZ
+  | ADD
+  | SUB
+  | MUL
+  | DIV
+  | ENTA
+  | ENTX
+  | ENTi: Ireg_id -> instruction
+  | INCA
+  | INCX
+  | INCi: Ireg_id -> instruction
+  | DECA
+  | DECX
+  | DECi: Ireg_id -> instruction
+  | CMPA
+  | CMPX
+  | CMPi: Ireg_id -> instruction
+  | JMP
+  | JSJ
+  | JOV
+  | JNOV
+  | JL | JE | JG | JGE | JNE | JLE
+  | JAN | JAZ | JAP | JANN | JAnZ | JANP
+  | JXN | JXZ | JXP | JXNN | JXNZ | JXNP
+  | JiN : Ireg_id -> instruction
+  | JiZ
+  | JiP
+  | JiNN : Ireg_id -> instruction
+  | JiNZ : Ireg_id -> instruction
+  | JiNP : Ireg_id -> instruction
+  | SLA | SRA | SLAX | SRAX | SLC | SRC
+  | MOVE
+  | IN
+  | OUT
+  | IOC
+  | JRED
+  | JBUS
+  | NUM
+  | CHAR
+    .
 
+  Parameter exec_time: instruction -> nat.
 
 End MIX.
+
