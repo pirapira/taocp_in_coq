@@ -1,6 +1,8 @@
 taocp_in_coq
 ============
 
+An attempt to formalize Knuth's book.
+
 Authors
 -------
 Yoichi Hirai
